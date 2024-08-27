@@ -1,9 +1,9 @@
-// js files
-import { handleSubmit } from './js/formHandler'
+import { handleSubmit } from './js/handleSubmit.js';
+import './styles/main.scss';
+
+document.addEventListener('DOMContentLoaded', () => {
+    const form = document.getElementById('articleForm');
+    form.addEventListener('submit', handleSubmit);
+});
 
 
-
-// alert("I EXIST")
-// console.log("CHANGE!!");
-
-// sass files

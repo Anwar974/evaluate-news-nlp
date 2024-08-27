@@ -1,33 +1,44 @@
-var path = require('path');
+const path = require('path');
 const express = require('express');
 const bodyParser = require('body-parser');
 const dotenv = require('dotenv');
-dotenv.config();
+require('dotenv').config();
 
 const app = express();
 
-const cors = require('cors');
 
-app.use(cors());
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+app.use(express.static(path.join(__dirname, 'src')));
 
-console.log(__dirname);
+app.post('/api', async (req, res) => {
+    const articleUrl = req.body.url;
+    const apiKey = process.env.API_KEY;
+    const apiUrl = `https://api.meaningcloud.com/sentiment-2.1?key=${apiKey}&url=${articleUrl}&lang=en`;
 
-// Variables for url and api key
+    try {
+        const fetch = (await import('node-fetch')).default;
+        const response = await fetch(apiUrl);
 
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
 
-app.get('/', function (req, res) {
-    res.send("This is the server API page, you may access its services via the client app.");
+        const data = await response.json();
+        res.send(data);
+
+        
+        console.log(data);
+
+    } catch (error) {
+        res.status(500).send({ error: 'Unable to process the request' });
+    }
 });
 
-
-// POST Route
-
-
-
-// Designates what port the app will listen to for incoming requests
-app.listen(8000, function () {
-    console.log('Example app listening on port 8000!');
+app.get('/', (req, res) => {
+    res.sendFile(path.resolve('src/views/index.html'));
 });
 
-
+app.listen(8000, () => {
+    console.log('Server running on port 8000');
+});
