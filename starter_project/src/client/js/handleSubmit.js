@@ -10,7 +10,7 @@ export const handleSubmit = async (event) =>  {
     }
 
 try {
-    const response = await fetch('/api', {
+    const response = await fetch('http://localhost:8081/api', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -26,9 +26,9 @@ try {
         console.log(data);
 
         // Update UI with results
-        document.getElementById('polarity').innerHTML = `Polarity: ${data.polarity || 'N/A'}`;
+        document.getElementById('polarity').innerHTML = `Polarity: ${data.score_tag || 'N/A'}`;
         document.getElementById('subjectivity').innerHTML = `Subjectivity: ${data.subjectivity || 'N/A'}`;
-        document.getElementById('text').innerHTML = `Text: ${data.text || 'N/A'}`;
+        document.getElementById('text').innerHTML = `Text: ${data.sentence_list ? data.sentence_list[0].text : 'N/A'}`;        
 
     } catch (error) {
         console.error('Error:', error);

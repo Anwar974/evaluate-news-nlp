@@ -29,7 +29,7 @@ module.exports = {
             },
             {
                 test: /\.scss$/,
-                use: [MiniCssExtractPlugin.loader,'css-loader', 'sass-loader']
+                use: ['style-loader','css-loader', 'sass-loader']
             },
             {
               test: /\.css$/,

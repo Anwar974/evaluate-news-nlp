@@ -3,15 +3,15 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const dotenv = require('dotenv');
 require('dotenv').config();
-
+const cors = require('cors')
 const app = express();
 
-
+app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, 'src')));
 
-app.post('/api', async (req, res) => {
+app.post('/api', async(req, res) => {
     const articleUrl = req.body.url;
     const apiKey = process.env.API_KEY;
     const apiUrl = `https://api.meaningcloud.com/sentiment-2.1?key=${apiKey}&url=${articleUrl}&lang=en`;
@@ -36,9 +36,9 @@ app.post('/api', async (req, res) => {
 });
 
 app.get('/', (req, res) => {
-    res.sendFile(path.resolve('src/views/index.html'));
+    res.sendFile(path.resolve('./src/client/views/index.html'));
 });
 
-app.listen(8000, () => {
-    console.log('Server running on port 8000');
+app.listen(8081, () => {
+    console.log('Server running on port 8081');
 });
