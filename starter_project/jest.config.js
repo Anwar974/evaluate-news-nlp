@@ -3,5 +3,8 @@ module.exports = {
       '^.+\\.js$': 'babel-jest',
   },
   moduleFileExtensions: ['js', 'json'],
-  testEnvironment: 'node', 
+  testEnvironment: 'jsdom',
+  moduleNameMapper: {
+    '\\.(css|scss)$': 'identity-obj-proxy',
+    },
 };

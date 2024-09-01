@@ -42,6 +42,9 @@ app.get('/', (req, res) => {
 // 
 });
 
-app.listen(8082, () => {
-    console.log('Server running on port 8082');
-});
+if (require.main === module) {
+    app.listen(8082, () => {
+        console.log('Server running on port 8082');
+    });
+}
+module.exports = app;
