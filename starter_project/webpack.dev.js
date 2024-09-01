@@ -3,6 +3,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
+const WorkboxPlugin = require('workbox-webpack-plugin');
 
 module.exports = {
     mode: 'development',
@@ -15,6 +16,7 @@ module.exports = {
     devServer: {
         static: path.join(__dirname, 'dist'),
         compress: true,
+        port: 8081,
     },
     module: {
         rules: [
@@ -24,7 +26,7 @@ module.exports = {
               },
               {
                 test: /\.css$/,
-                use: [MiniCssExtractPlugin.loader, 'css-loader'],
+                use: ['style-loader', 'css-loader'],
               },
               {
                 test: /\.js$/,
@@ -43,7 +45,6 @@ module.exports = {
         new HtmlWebpackPlugin({
             template: './src/client/views/index.html',
             filename: 'index.html',
-            inject: 'body'
         }),
         new MiniCssExtractPlugin({
             filename: 'styles/main.css'
@@ -59,5 +60,9 @@ module.exports = {
             protectWebpackAssets: false,
            
         }),
+        new WorkboxPlugin.GenerateSW({
+          clientsClaim: true,
+          skipWaiting: true
+      }), 
     ]
 };

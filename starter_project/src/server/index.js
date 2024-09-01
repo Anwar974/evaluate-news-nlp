@@ -7,9 +7,10 @@ const cors = require('cors')
 const app = express();
 
 app.use(cors());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-app.use(express.static(path.join(__dirname, 'src')));
+// app.use(express.static(path.join(__dirname, 'src')));
+app.use(express.static('dist'));
 
 app.post('/api', async(req, res) => {
     const articleUrl = req.body.url;
@@ -36,9 +37,11 @@ app.post('/api', async(req, res) => {
 });
 
 app.get('/', (req, res) => {
-    res.sendFile(path.resolve('./src/client/views/index.html'));
+    res.sendFile(path.resolve('dist/index.html'));
+    // res.sendFile(path.resolve('./src/client/views/index.html'));
+// 
 });
 
-app.listen(8081, () => {
-    console.log('Server running on port 8081');
+app.listen(8082, () => {
+    console.log('Server running on port 8082');
 });

@@ -1,8 +1,8 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
+const WorkboxPlugin = require('workbox-webpack-plugin');
 
 module.exports = {
     mode: 'production',
@@ -12,7 +12,7 @@ module.exports = {
         path: path.resolve(__dirname, 'dist'),
         clean: true,
         libraryTarget: 'var',
-        library: 'Client',
+        library: 'Client'
         
     },
     module: {
@@ -33,38 +33,30 @@ module.exports = {
             },
             {
               test: /\.css$/,
-              use: [MiniCssExtractPlugin.loader, 'css-loader'],
+              use: ['style-loader', 'css-loader'],
             },
         ]
     },
     
     optimization: {
         minimizer: [
-            
             new CssMinimizerPlugin(),
         ],
         minimize: true,
       },
     plugins: [
-        new MiniCssExtractPlugin({
-            filename: 'style.css'
-        }),
         new HtmlWebpackPlugin(
             {
             template: "./src/client/views/index.html",
             filename: "./index.html"
         }
     ),
-        new CleanWebpackPlugin({
-            // Simulate the removal of files
-            dry: true,
-            // Write Logs to Console
-            verbose: false,
-            // Automatically remove all unused webpack assets on rebuild
-            cleanStaleWebpackAssets: true,
-            protectWebpackAssets: false,
-           
-        }),
+        new CleanWebpackPlugin(),
+        
+        new WorkboxPlugin.GenerateSW({
+            clientsClaim: true,
+            skipWaiting: true,
+        })
     
 
     ]

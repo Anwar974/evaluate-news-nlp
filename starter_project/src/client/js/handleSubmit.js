@@ -10,7 +10,7 @@ export const handleSubmit = async (event) =>  {
     }
 
 try {
-    const response = await fetch('http://localhost:8081/api', {
+    const response = await fetch('http://localhost:8082/api', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
